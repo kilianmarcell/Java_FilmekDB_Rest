@@ -10,9 +10,9 @@
     </padding>
    <HBox spacing="10.0">
       <children>
-         <Button mnemonicParsing="false" onAction="#onHozzaadasButtonClick" text="Hozzáadás" />
-         <Button mnemonicParsing="false" onAction="#onModositasButtonClick" text="Módosítás" />
-         <Button mnemonicParsing="false" onAction="#onTorlesButtonClick" text="Törlés" />
+         <Button maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onHozzaadasButtonClick" prefWidth="100.0" text="Hozzáadás" />
+         <Button maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onModositasButtonClick" prefWidth="100.0" text="Módosítás" />
+         <Button maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onTorlesButtonClick" prefWidth="100.0" text="Törlés" />
       </children>
    </HBox>
    <TableView fx:id="filmTable" prefHeight="200.0" prefWidth="500.0">
