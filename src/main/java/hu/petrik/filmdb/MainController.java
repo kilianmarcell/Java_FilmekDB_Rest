@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainController {
+public class MainController extends Controller {
 
     @FXML
     private TableView<Film> filmTable;
@@ -31,6 +31,7 @@ public class MainController {
     private TableColumn<Film, Integer> hosszOszlop;
     @FXML
     private TableColumn<Film, Integer> ertekelesOszlop;
+    private FilmDB db;
 
     public void initialize() {
         //A tárolt objektumban egy getCim függvényt fog keresni
@@ -40,8 +41,8 @@ public class MainController {
         ertekelesOszlop.setCellValueFactory(new PropertyValueFactory<>("ertekeles"));
 
         try {
-            FilmDB filmDB = new FilmDB();
-            List<Film> filmList = filmDB.getFilmek();
+            db = new FilmDB();
+            List<Film> filmList = db.getFilmek();
             for (Film film: filmList) {
                 filmTable.getItems().add(film);
             }
@@ -50,20 +51,6 @@ public class MainController {
         }
 
         //filmTable.getItems().add(new Film(1, "Teszt", "akcio", 110, 5)); tesztadat
-    }
-
-    private void hibaKiir(Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Hiba");
-        alert.setHeaderText(e.getClass().toString());
-        alert.setContentText(e.getMessage());
-        Timer alertTimer = new Timer();
-        alertTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> alert.show());
-            }
-        }, 500);
     }
 
     @FXML
@@ -75,7 +62,20 @@ public class MainController {
             scene = new Scene(fxmlLoader.load(), 320, 400);
             stage.setTitle("Hozzáadás");
             stage.setScene(scene);
+            stage.setOnCloseRequest(event -> filmListaFeltolt());
             stage.show();
+        } catch (Exception e) {
+            hibaKiir(e);
+        }
+    }
+
+    private void filmListaFeltolt() {
+        try {
+            List<Film> filmList = db.getFilmek();
+            filmTable.getItems().clear();
+            for (Film film: filmList) {
+                filmTable.getItems().add(film);
+            }
         } catch (Exception e) {
             hibaKiir(e);
         }
@@ -87,5 +87,21 @@ public class MainController {
 
     @FXML
     public void onTorlesButtonClick(ActionEvent actionEvent) {
+        int selectedIndex = filmTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex == -1) {
+            alert("A törléshez válasszon ki egy elemet a táblából!");
+            return;
+        }
+        Film torlendofilm = filmTable.getSelectionModel().getSelectedItem();
+        if (!confirm("Biztosan törli az alábbi filmet?: " + torlendofilm.getCim())) {
+            return;
+        }
+        try {
+            db.filmtorlese(torlendofilm.getId());
+            alert("Sikeres törlés!");
+            filmListaFeltolt();
+        } catch (SQLException e) {
+            hibaKiir(e);
+        }
     }
 }

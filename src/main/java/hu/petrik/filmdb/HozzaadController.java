@@ -1,11 +1,15 @@
 package hu.petrik.filmdb;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 
 import java.sql.SQLException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 
-public class HozzaadController {
+public class HozzaadController extends Controller {
     @javafx.fxml.FXML
     private TextField cimHozzaadTextField;
     @javafx.fxml.FXML
@@ -47,15 +51,8 @@ public class HozzaadController {
             } else {
                 alert("Film hozzáadása sikertelen!");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            hibaKiir(e);
         }
-    }
-
-    private void alert(String s) {
-        Alert alert = new Alert(Alert.AlertType.NONE);
-        alert.setContentText(s);
-        alert.getButtonTypes().add(ButtonType.OK);
-        alert.show();
     }
 }
