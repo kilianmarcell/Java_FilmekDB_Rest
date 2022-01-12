@@ -28,4 +28,14 @@ public class FilmDB {
         }
         return filmek;
     }
+
+    public int filmekHozzaadasa(String cim, String kategoria, int hossz, int ertekeles) throws SQLException {
+        String sql = "INSERT INTO filmek(cim, kategoria, hossz, ertekeles) VALUES (?,?,?,?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, cim);
+        stmt.setString(2, kategoria);
+        stmt.setInt(3, hossz);
+        stmt.setInt(4, ertekeles);
+        return stmt.executeUpdate();
+    }
 }

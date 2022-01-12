@@ -3,6 +3,8 @@ package hu.petrik.filmdb;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 
+import java.sql.SQLException;
+
 public class HozzaadController {
     @javafx.fxml.FXML
     private TextField cimHozzaadTextField;
@@ -28,12 +30,25 @@ public class HozzaadController {
             alert("Kategória megadása kötelező!");
             return;
         }
+
         try {
             hossz = hosszHozzaadSpinner.getValue();
         } catch (Exception e) {
             System.out.println(e);
             alert("A hossz csak 1 és 999 közötti szám lehet.");
             return;
+        }
+
+        try {
+            FilmDB db = new FilmDB();
+            int siker = db.filmekHozzaadasa(cim, kategoria, hossz, ertekeles);
+            if (siker == 1) {
+                alert("Film hozzáadása sikeres!");
+            } else {
+                alert("Film hozzáadása sikertelen!");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
