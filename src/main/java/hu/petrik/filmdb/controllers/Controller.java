@@ -1,14 +1,25 @@
-package hu.petrik.filmdb;
+package hu.petrik.filmdb.controllers;
 
+import hu.petrik.filmdb.FilmApp;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public abstract class Controller {
+
+    protected Stage stage;
+
+    public Stage getStage() {
+        return stage;
+    }
 
     protected void hibaKiir(Exception e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -37,5 +48,23 @@ public abstract class Controller {
         alert.setContentText(s);
         alert.getButtonTypes().add(ButtonType.OK);
         alert.show();
+    }
+
+    protected void alertWait(String s) {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setContentText(s);
+        alert.getButtonTypes().add(ButtonType.OK);
+        alert.showAndWait();
+    }
+
+    public static Controller ujAblak(String fxml, String title, int width, int height) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(FilmApp.class.getResource(fxml));
+        Scene scene = new Scene(fxmlLoader.load(), width, height);
+        stage.setTitle(title);
+        stage.setScene(scene);
+        Controller controller = fxmlLoader.getController();
+        controller.stage = stage;
+        return fxmlLoader.getController();
     }
 }

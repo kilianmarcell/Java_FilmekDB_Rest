@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane maxWidth="300.0" minHeight="-Infinity" minWidth="300.0" prefWidth="300.0"
+          xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="hu.petrik.filmdb.controllers.ModositController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="30.0" prefWidth="30.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="30.0" prefWidth="30.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+    </rowConstraints>
+    <children>
+        <Label text="Cim" textAlignment="CENTER" GridPane.halignment="RIGHT">
+            <font>
+                <Font size="18.0"/>
+            </font>
+            <GridPane.margin>
+                <Insets right="20.0"/>
+            </GridPane.margin>
+        </Label>
+        <Label text="Kategória" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+            <font>
+                <Font size="18.0"/>
+            </font>
+            <GridPane.margin>
+                <Insets right="20.0"/>
+            </GridPane.margin>
+        </Label>
+        <Label text="Hossz (perc)" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+            <font>
+                <Font size="18.0"/>
+            </font>
+            <GridPane.margin>
+                <Insets right="20.0"/>
+            </GridPane.margin>
+        </Label>
+        <Label text="Értékelés" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <font>
+                <Font size="18.0"/>
+            </font>
+            <GridPane.margin>
+                <Insets right="20.0"/>
+            </GridPane.margin>
+        </Label>
+        <TextField fx:id="cimHozzaadTextField" GridPane.columnIndex="1">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </TextField>
+        <TextField fx:id="kategoriaHozzaadTextField" GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                   GridPane.rowIndex="1">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </TextField>
+        <Spinner fx:id="hosszHozzaadSpinner" editable="true" GridPane.columnIndex="1" GridPane.halignment="LEFT"
+                 GridPane.rowIndex="2">
+            <valueFactory>
+                <SpinnerValueFactory.IntegerSpinnerValueFactory amountToStepBy="1" max="999" min="1"/>
+            </valueFactory>
+        </Spinner>
+        <ChoiceBox fx:id="ertekelesHozzadChoiceBox" prefWidth="150.0" GridPane.columnIndex="1"
+                   GridPane.halignment="LEFT" GridPane.rowIndex="3">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <Integer fx:value="1"/>
+                    <Integer fx:value="2"/>
+                    <Integer fx:value="3"/>
+                    <Integer fx:value="4"/>
+                    <Integer fx:value="5"/>
+                    <Integer fx:value="6"/>
+                    <Integer fx:value="7"/>
+                    <Integer fx:value="8"/>
+                    <Integer fx:value="9"/>
+                    <Integer fx:value="10"/>
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+        <Button mnemonicParsing="false" onAction="#onModositButtonClick" prefHeight="55.0" prefWidth="150.0"
+                text="Módosítás" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    </children>
+</GridPane>

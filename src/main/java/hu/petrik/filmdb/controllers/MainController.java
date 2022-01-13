@@ -1,13 +1,12 @@
-package hu.petrik.filmdb;
+package hu.petrik.filmdb.controllers;
 
-import javafx.application.Platform;
+import hu.petrik.filmdb.Film;
+import hu.petrik.filmdb.FilmApp;
+import hu.petrik.filmdb.FilmDB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.print.PageLayout;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,8 +15,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainController extends Controller {
 
@@ -56,14 +53,10 @@ public class MainController extends Controller {
     @FXML
     public void onHozzaadasButtonClick(ActionEvent actionEvent) {
         try {
-            Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(FilmApp.class.getResource("hozzaad-view.fxml"));
-            Scene scene = null;
-            scene = new Scene(fxmlLoader.load(), 320, 400);
-            stage.setTitle("Hozzáadás");
-            stage.setScene(scene);
-            stage.setOnCloseRequest(event -> filmListaFeltolt());
-            stage.show();
+            Controller modositas = ujAblak("hozzaad-view.fxml", "File hozzáadása", 320, 400);
+            modositas.getStage().setOnCloseRequest(event -> filmListaFeltolt());
+            modositas.getStage().setOnHiding(event -> filmTable.refresh());
+            modositas.getStage().show();
         } catch (Exception e) {
             hibaKiir(e);
         }
@@ -83,6 +76,20 @@ public class MainController extends Controller {
 
     @FXML
     public void onModositasButtonClick(ActionEvent actionEvent) {
+        int selectedIndex = filmTable.getSelectionModel().getSelectedIndex();
+        if (selectedIndex == -1) {
+            alert("A módosításhoz válasszon ki egy elemet a táblából!");
+            return;
+        }
+        Film modositando = filmTable.getSelectionModel().getSelectedItem();
+        try {
+            ModositController modositas = (ModositController) ujAblak("modosit-view-fxml", "Film módosítása",
+                    320, 400);
+            modositas.setModositando(modositando);
+            modositas.getStage().show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

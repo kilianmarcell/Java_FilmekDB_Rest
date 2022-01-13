@@ -1,13 +1,8 @@
-package hu.petrik.filmdb;
+package hu.petrik.filmdb.controllers;
 
-import javafx.application.Platform;
+import hu.petrik.filmdb.FilmDB;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
-
-import java.sql.SQLException;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
 
 public class HozzaadController extends Controller {
     @javafx.fxml.FXML
