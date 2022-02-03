@@ -15,6 +15,11 @@ public class RequestHandler {
     public static Response post(String url, String data) throws IOException {
         HttpURLConnection conn = setupConnection(url);
         conn.setRequestMethod("POST");
+        addRequestBody(conn, data);
+        return getResponse(conn);
+    }
+
+    private static void addRequestBody(HttpURLConnection conn, String data) throws IOException {
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setDoOutput(true);
         OutputStream os = conn.getOutputStream();
@@ -22,8 +27,7 @@ public class RequestHandler {
         writer.write(data);
         writer.flush();
         writer.close();
-
-        return getResponse(conn);
+        os.close();
     }
 
     private static HttpURLConnection setupConnection(String url) throws IOException {
